@@ -64,3 +64,36 @@ def gammaCorrect(rgb, gamma=1):
     return rgb ** (1 / gamma)
 
 
+
+def convertRGBtoXYZ(rgb):
+    xyz_to_srgb_matrix = np.array(
+            [
+                [3.240970, -1.537383, -0.498611],
+                [-0.969244, 1.875968, 0.041555],
+                [0.055630, -0.203977, 1.056972],
+            ]
+        )
+    M = la.inv(xyz_to_srgb_matrix)
+    print(M)
+    
+    res = M@ rgb
+    
+    return res
+    
+    
+cxyz = convertRGBtoXYZ(csrgb)
+
+### mario code
+
+import matplotlib.image as mpimg
+
+
+mario = mpimg.imread("mario_big.png")
+highthresh = .9
+lowthresh = .1
+luigi = mario.copy()
+
+for row in range(len(mario)):
+    for col in range(len(mario[0])):
+        if mario[row][col][0] > highthresh and mario[row][col][3] > highthresh and mario[row][col][1]< lowthresh  and  mario[row][col][2] < lowthresh:
+            luigi[row][col] = np.array([0,1,0,1])

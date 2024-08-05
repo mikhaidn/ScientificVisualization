@@ -3,6 +3,7 @@ import numpy.linalg as la
 
 
 # https://d3c33hcgiwev3.cloudfront.net/H1kf3a9JQnmZH92vSYJ52g_b5fd604170b54dbba960403f551d3284_519-7-1.pdf?Expires=1717891200&Signature=hfBQK97bMmkyozR74LrVYQULOppD3OZWvmvJH9ZwOQyb0oJtuDxx-HZ4MhsBVvUf08C~J5IBzVDorYHjtooCy69Mq6HaAJ7bmso0dAcR0EUcGEbHLkAZFnMffDZfSp61Xihk1eGrE1vSz-fqpg7A-6mUrbj7s12hQx33cuG9EvI_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A
+# given two points, and their values, find the value of a midpoint
 def linearInterpolation(x=np.array([[0,0],[10,0]]),fx=np.array([4,20]), p =np.array([7.5,0])):
   p0=x[0]
   p1=x[1]
@@ -10,9 +11,10 @@ def linearInterpolation(x=np.array([[0,0],[10,0]]),fx=np.array([4,20]), p =np.ar
   ft = (1-t)*fx[0]+t*fx[1]
   return ft
 
-def bilinearInterpolation(x=np.array([[[15,19],[15,20]],[[16,19],[16,20]]]),
-                          fx=np.array([[8,4],[36,16]]),
-                          p =np.array([15.25,19.75])):
+# given four points of a square, and their values, find the value of a point inbetween them
+def bilinearInterpolation(x=np.array([[[1,0],[1,1]],[[2,0],[2,1]]]),
+                          fx=np.array([[84,81],[91,61]]),
+                          p =np.array([1.3,.8])):
   npx0=  np.array([x[0][0][0],p[1]]) # assume x vals are same
   f0 =linearInterpolation(x[0],fx[0],npx0)
   npx1=  np.array([x[1][0][0],p[1]]) # assume x vals are same
@@ -74,7 +76,7 @@ def barycentricCoordsTriangle(triPoints = np.array([[0,-3],[0,3],[6,0]]),
   return  computer(p),computer
 
 
-def rbfInterpolation(x = np.array([.2,.8,.7]),fx = np.array([1.04,1.64,1.49]), kernel='inverseDistance', lam = 1):
+def rbfInterpolation(x = np.array([.8,.4,.6]),fx = np.array([1.64,1.16,1.36]), kernel='inverseDistance', lam = 1):
   k = lambda a,_ : a
   A = []
   match kernel:
